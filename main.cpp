@@ -9,9 +9,9 @@ void apresenta_jogo() {
 }
 
 void renderiza_labirinto(int labirinto[5][5]) {
-	for (int m = 0; m < 5; m++) {
-		for (int n = 0; n < 5; n++) {
-			switch (labirinto[m][n]) {
+	for (int linha = 0; linha < 5; linha++) {
+		for (int coluna = 0; coluna < 5; coluna++) {
+			switch (labirinto[linha][coluna]) {
 			case 0:
 				cout << ". ";
 				break;
@@ -30,7 +30,69 @@ void renderiza_labirinto(int labirinto[5][5]) {
 	}
 }
 
-void movimenta_player() {
+int proximo_bloco(int labirinto[5][5], char movimento) {
+	switch (movimento) {
+	case 'W':
+		break;
+	case 'S':
+		break;
+	case 'A':
+		break;
+	case 'D':
+		break;
+	default:
+		break;
+	}
+}
+
+void atualiza_mapa(int mapa_labirinto[5][5], int novo_mapa[5][5]) {
+	
+}
+
+void pega_posicao_jogador(int labirinto[5][5], int& linha_jogador, int& coluna_jogador, int& posicao[2]) {
+	for (int linha = 0; linha < 5; linha++) {
+		for (int coluna = 0; coluna < 5; coluna++) {
+			if (labirinto[linha][coluna] == 2) {
+				linha_jogador = linha;
+				coluna_jogador = coluna;
+			}
+		}
+	}
+}
+
+void movimenta_player(int labirinto[5][5], char movimento, int& linha_jogador, int& coluna_jogador) {
+
+	if (movimento_valido(proximo_bloco(labirinto, movimento))) {
+		switch (movimento) {
+		case 'W':
+			
+			movimento_valido = labirinto[linha_jogador - 1][coluna_jogador] != 1 && linha_jogador - velocidade
+
+			if (movimento_valido(labirinto[linha_jogador - 1][coluna_jogador])) {
+				labirinto[linha_jogador][coluna_jogador] = 0; // espaço anterior fica vazio
+				labirinto[linha_jogador - 1][coluna_jogador] = 2; // proximo espaço definido como jogador
+				linha_jogador--;
+			}
+			
+			/*
+			posição do jogador ( linha - 1 )
+			atualiza a matriz
+			*/
+			break;
+		case 'S':
+			break;
+		case 'A':
+			break;
+		case 'D':
+			break;
+		default:
+			cout << "movimento inválido" << endl;
+			break;
+		}
+	} else {
+		cout << "movimento inválido" << endl;
+	}
+
 	/*
 	recebe uma entrada de movimento
 	verifica se o player pode se mover ( não inclui vencer pq é fim de game loop )
@@ -57,7 +119,12 @@ int main() {
 		{0, 0, 1, 0, 3}
 	};
 
-	apresenta_jogo();
+	int linha_jogador;
+	int coluna_jogador;
+
+
+
+	//apresenta_jogo();
 	renderiza_labirinto(labirinto);
 	
 
