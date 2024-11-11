@@ -10,6 +10,9 @@ int labirinto[5][5] = {
 		{0, 0, 1, 0, 3}
 };
 
+int linha_jogador = 0;
+int coluna_jogador = 0;
+
 int velocidade = 1;
 
 void renderiza_labirinto() {
@@ -38,9 +41,10 @@ void apresenta_jogo() {
 	system("clear");
 	cout << "Bem-vindo ao jogo do labirinto" << endl;
 	cout << "Use as teclas W A S D para se movimentar" << endl;
+	renderiza_labirinto();
 }
 
-void pega_posicao_jogador(int labirinto[5][5], int& linha_jogador, int& coluna_jogador) {
+void pega_posicao_jogador() {
 	for (int linha = 0; linha < 5; linha++) {
 		for (int coluna = 0; coluna < 5; coluna++) {
 			if (labirinto[linha][coluna] == 2) {
@@ -51,12 +55,13 @@ void pega_posicao_jogador(int labirinto[5][5], int& linha_jogador, int& coluna_j
 	}
 }
 
-void movimenta_player(int labirinto[5][5], char movimento, int& linha_jogador, int& coluna_jogador) {
+void movimenta_player(char movimento) {
 	bool parede = labirinto[linha_jogador - 1][coluna_jogador] == 1;
+	bool movimento_valido;
 
 	switch (movimento) {
 	case 'W':
-		bool movimento_valido = !parede && linha_jogador - velocidade >= 0;
+		movimento_valido = !parede && linha_jogador - velocidade >= 0;
 
 		if (movimento_valido) {
 			labirinto[linha_jogador][coluna_jogador] = 0; // espaço anterior fica vazio
@@ -65,7 +70,7 @@ void movimenta_player(int labirinto[5][5], char movimento, int& linha_jogador, i
 		}
 		break;
 	case 'S':
-		bool movimento_valido = !parede && linha_jogador - velocidade < 5;
+		movimento_valido = !parede && linha_jogador - velocidade < 5;
 
 		if (movimento_valido) {
 			labirinto[linha_jogador][coluna_jogador] = 0; // espaço anterior fica vazio
@@ -74,7 +79,7 @@ void movimenta_player(int labirinto[5][5], char movimento, int& linha_jogador, i
 		}
 		break;
 	case 'A':
-		bool movimento_valido = !parede && coluna_jogador - velocidade >= 0;
+		movimento_valido = !parede && coluna_jogador - velocidade >= 0;
 
 		if (movimento_valido) {
 			labirinto[linha_jogador][coluna_jogador] = 0; // espaço anterior fica vazio
@@ -83,7 +88,7 @@ void movimenta_player(int labirinto[5][5], char movimento, int& linha_jogador, i
 		}
 		break;
 	case 'D':
-		bool movimento_valido = !parede && coluna_jogador - velocidade < 5;
+		movimento_valido = !parede && coluna_jogador - velocidade < 5;
 
 		if (movimento_valido) {
 			labirinto[linha_jogador][coluna_jogador] = 0; // espaço anterior fica vazio
@@ -97,35 +102,21 @@ void movimenta_player(int labirinto[5][5], char movimento, int& linha_jogador, i
 	}
 }
 
-void game_loop() {
-	bool running = true;
-	while (running) {
-		// limpa terminal
-		// renderiza labirinto
-		// movimenta
-	}
-}
-
 int main() {
 	
+	pega_posicao_jogador();
+	apresenta_jogo();
 	
+	bool running = true;
+	char entrada;
 
-	int linha_jogador;
-	int coluna_jogador;
-
-
-
-	//apresenta_jogo();
-	renderiza_labirinto();
-	
-
-	/*
-	apresenta labirinto
-	espera movimento
-	verifica se pode se mover
-	verifica se chegou ao final
-	renderiza novo labirinto
-	*/
+	while (running) {
+		cout << "Insira a tecla de movimento: ";
+		cin >> entrada;
+		movimenta_player(entrada);
+		system("clear");
+		renderiza_labirinto();
+	}
 
 	return 0;
 }
