@@ -2,13 +2,17 @@
 
 using namespace std;
 
-void apresenta_jogo() {
-	system("clear");
-	cout << "Bem-vindo ao jogo do labirinto" << endl;
-	cout << "Use as teclas W A S D para se movimentar" << endl;
-}
+int labirinto[5][5] = {
+		{2, 0, 0, 0, 0},
+		{0, 1, 0, 1, 0},
+		{0, 1, 0, 1, 1},
+		{0, 1, 0, 0, 0},
+		{0, 0, 1, 0, 3}
+};
 
-void renderiza_labirinto(int labirinto[5][5]) {
+int velocidade = 1;
+
+void renderiza_labirinto() {
 	for (int linha = 0; linha < 5; linha++) {
 		for (int coluna = 0; coluna < 5; coluna++) {
 			switch (labirinto[linha][coluna]) {
@@ -30,26 +34,13 @@ void renderiza_labirinto(int labirinto[5][5]) {
 	}
 }
 
-int proximo_bloco(int labirinto[5][5], char movimento) {
-	switch (movimento) {
-	case 'W':
-		break;
-	case 'S':
-		break;
-	case 'A':
-		break;
-	case 'D':
-		break;
-	default:
-		break;
-	}
+void apresenta_jogo() {
+	system("clear");
+	cout << "Bem-vindo ao jogo do labirinto" << endl;
+	cout << "Use as teclas W A S D para se movimentar" << endl;
 }
 
-void atualiza_mapa(int mapa_labirinto[5][5], int novo_mapa[5][5]) {
-	
-}
-
-void pega_posicao_jogador(int labirinto[5][5], int& linha_jogador, int& coluna_jogador, int& posicao[2]) {
+void pega_posicao_jogador(int labirinto[5][5], int& linha_jogador, int& coluna_jogador) {
 	for (int linha = 0; linha < 5; linha++) {
 		for (int coluna = 0; coluna < 5; coluna++) {
 			if (labirinto[linha][coluna] == 2) {
@@ -61,43 +52,49 @@ void pega_posicao_jogador(int labirinto[5][5], int& linha_jogador, int& coluna_j
 }
 
 void movimenta_player(int labirinto[5][5], char movimento, int& linha_jogador, int& coluna_jogador) {
+	bool parede = labirinto[linha_jogador - 1][coluna_jogador] == 1;
 
-	if (movimento_valido(proximo_bloco(labirinto, movimento))) {
-		switch (movimento) {
-		case 'W':
-			
-			movimento_valido = labirinto[linha_jogador - 1][coluna_jogador] != 1 && linha_jogador - velocidade
+	switch (movimento) {
+	case 'W':
+		bool movimento_valido = !parede && linha_jogador - velocidade >= 0;
 
-			if (movimento_valido(labirinto[linha_jogador - 1][coluna_jogador])) {
-				labirinto[linha_jogador][coluna_jogador] = 0; // espaço anterior fica vazio
-				labirinto[linha_jogador - 1][coluna_jogador] = 2; // proximo espaço definido como jogador
-				linha_jogador--;
-			}
-			
-			/*
-			posição do jogador ( linha - 1 )
-			atualiza a matriz
-			*/
-			break;
-		case 'S':
-			break;
-		case 'A':
-			break;
-		case 'D':
-			break;
-		default:
-			cout << "movimento inválido" << endl;
-			break;
+		if (movimento_valido) {
+			labirinto[linha_jogador][coluna_jogador] = 0; // espaço anterior fica vazio
+			labirinto[linha_jogador - 1][coluna_jogador] = 2; // proximo espaço definido como jogador
+			linha_jogador--;
 		}
-	} else {
-		cout << "movimento inválido" << endl;
-	}
+		break;
+	case 'S':
+		bool movimento_valido = !parede && linha_jogador - velocidade < 5;
 
-	/*
-	recebe uma entrada de movimento
-	verifica se o player pode se mover ( não inclui vencer pq é fim de game loop )
-	atualiza a array multidimensional
-	*/
+		if (movimento_valido) {
+			labirinto[linha_jogador][coluna_jogador] = 0; // espaço anterior fica vazio
+			labirinto[linha_jogador + 1][coluna_jogador] = 2; // proximo espaço definido como jogador
+			linha_jogador++;
+		}
+		break;
+	case 'A':
+		bool movimento_valido = !parede && coluna_jogador - velocidade >= 0;
+
+		if (movimento_valido) {
+			labirinto[linha_jogador][coluna_jogador] = 0; // espaço anterior fica vazio
+			labirinto[linha_jogador][coluna_jogador - 1] = 2; // proximo espaço definido como jogador
+			coluna_jogador--;
+		}
+		break;
+	case 'D':
+		bool movimento_valido = !parede && coluna_jogador - velocidade < 5;
+
+		if (movimento_valido) {
+			labirinto[linha_jogador][coluna_jogador] = 0; // espaço anterior fica vazio
+			labirinto[linha_jogador][coluna_jogador + 1] = 2; // proximo espaço definido como jogador
+			coluna_jogador++;
+		}
+		break;
+	default:
+		cout << "movimento inválido" << endl;
+		break;
+	}
 }
 
 void game_loop() {
@@ -111,13 +108,7 @@ void game_loop() {
 
 int main() {
 	
-	int labirinto[5][5] = {
-		{2, 0, 0, 0, 0},
-		{0, 1, 0, 1, 0},
-		{0, 1, 0, 1, 1},
-		{0, 1, 0, 0, 0},
-		{0, 0, 1, 0, 3}
-	};
+	
 
 	int linha_jogador;
 	int coluna_jogador;
@@ -125,7 +116,7 @@ int main() {
 
 
 	//apresenta_jogo();
-	renderiza_labirinto(labirinto);
+	renderiza_labirinto();
 	
 
 	/*
