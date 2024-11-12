@@ -38,7 +38,7 @@ void renderiza_labirinto() {
 }
 
 void apresenta_jogo() {
-	system("clear");
+	system("cls");
 	cout << "Bem-vindo ao jogo do labirinto" << endl;
 	cout << "Use as teclas W A S D para se movimentar" << endl;
 	renderiza_labirinto();
@@ -56,43 +56,47 @@ void pega_posicao_jogador() {
 }
 
 void movimenta_player(char movimento) {
-	bool parede = labirinto[linha_jogador - 1][coluna_jogador] == 1;
+	bool parede;
 	bool movimento_valido;
 
 	switch (movimento) {
 	case 'W':
+		parede = labirinto[linha_jogador - 1][coluna_jogador] == 1;
 		movimento_valido = !parede && linha_jogador - velocidade >= 0;
 
 		if (movimento_valido) {
-			labirinto[linha_jogador][coluna_jogador] = 0; // espaço anterior fica vazio
-			labirinto[linha_jogador - 1][coluna_jogador] = 2; // proximo espaço definido como jogador
+			labirinto[linha_jogador][coluna_jogador] = 0;
+			labirinto[linha_jogador - 1][coluna_jogador] = 2;
 			linha_jogador--;
 		}
 		break;
 	case 'S':
-		movimento_valido = !parede && linha_jogador - velocidade < 5;
+		parede = labirinto[linha_jogador + 1][coluna_jogador] == 1;
+		movimento_valido = !parede && linha_jogador + velocidade < 5;
 
 		if (movimento_valido) {
-			labirinto[linha_jogador][coluna_jogador] = 0; // espaço anterior fica vazio
-			labirinto[linha_jogador + 1][coluna_jogador] = 2; // proximo espaço definido como jogador
+			labirinto[linha_jogador][coluna_jogador] = 0;
+			labirinto[linha_jogador + 1][coluna_jogador] = 2;
 			linha_jogador++;
 		}
 		break;
 	case 'A':
+		parede = labirinto[linha_jogador][coluna_jogador - 1] == 1;
 		movimento_valido = !parede && coluna_jogador - velocidade >= 0;
 
 		if (movimento_valido) {
-			labirinto[linha_jogador][coluna_jogador] = 0; // espaço anterior fica vazio
-			labirinto[linha_jogador][coluna_jogador - 1] = 2; // proximo espaço definido como jogador
+			labirinto[linha_jogador][coluna_jogador] = 0;
+			labirinto[linha_jogador][coluna_jogador - 1] = 2;
 			coluna_jogador--;
 		}
 		break;
 	case 'D':
-		movimento_valido = !parede && coluna_jogador - velocidade < 5;
+		parede = labirinto[linha_jogador][coluna_jogador + 1] == 1;
+		movimento_valido = !parede && coluna_jogador + velocidade < 5;
 
 		if (movimento_valido) {
-			labirinto[linha_jogador][coluna_jogador] = 0; // espaço anterior fica vazio
-			labirinto[linha_jogador][coluna_jogador + 1] = 2; // proximo espaço definido como jogador
+			labirinto[linha_jogador][coluna_jogador] = 0;
+			labirinto[linha_jogador][coluna_jogador + 1] = 2;
 			coluna_jogador++;
 		}
 		break;
@@ -114,8 +118,10 @@ int main() {
 		cout << "Insira a tecla de movimento: ";
 		cin >> entrada;
 		movimenta_player(entrada);
-		system("clear");
+		system("cls");
 		renderiza_labirinto();
+		//cout << "Coluna jogador: " << coluna_jogador << endl;
+		//cout << "Linha jogador " << linha_jogador << endl;
 	}
 
 	return 0;
