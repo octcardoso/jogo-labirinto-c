@@ -13,6 +13,9 @@ int labirinto[5][5] = {
 int linha_jogador = 0;
 int coluna_jogador = 0;
 
+int linha_vitoria = 0;
+int coluna_vitoria = 0;
+
 int velocidade = 1;
 
 void renderiza_labirinto() {
@@ -106,9 +109,21 @@ void movimenta_player(char movimento) {
 	}
 }
 
+void pega_posicao_vitoria() {
+	for (int linha = 0; linha < 5; linha++) {
+		for (int coluna = 0; coluna < 5; coluna++) {
+			if (labirinto[linha][coluna] == 3) {
+				linha_vitoria = linha;
+				coluna_vitoria = coluna;
+			}
+		}
+	}
+}
+
 int main() {
 	
 	pega_posicao_jogador();
+	pega_posicao_vitoria();
 	apresenta_jogo();
 	
 	bool running = true;
@@ -120,8 +135,10 @@ int main() {
 		movimenta_player(entrada);
 		system("cls");
 		renderiza_labirinto();
-		//cout << "Coluna jogador: " << coluna_jogador << endl;
-		//cout << "Linha jogador " << linha_jogador << endl;
+		if (linha_vitoria == linha_jogador && coluna_vitoria == coluna_jogador) {
+			running = false;
+			cout << "Parábens, você venceu !" << endl;
+		}
 	}
 
 	return 0;
